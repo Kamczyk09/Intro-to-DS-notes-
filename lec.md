@@ -375,6 +375,40 @@ $$
 \rho_{X,Y} = \frac{Cov(X,Y)}{\sqrt{\mathbb{V}[X] \mathbb{V}[Y]}} \in [-1, 1]
 $$
 
+
+If X and Y are RVs then
+$$
+V(X+Y) = V(X) + V(Y) + 2Cov(X,Y)
+$$
+If X and Y are independent then
+$$
+V(X+Y) = V(X) + V(Y)
+$$
+
+## Mean and variance of some important distributions
+
+| Distribution | Mean | Variance |
+| :--- | :--- | :--- |
+| Point mass at $a$ | $a$ | $0$ |
+| Bernoulli($p$) | $p$ | $p(1-p)$ |
+| Binomial($n,p$) | $np$ | $np(1-p)$ |
+| Geometric($p$) | $1/p$ | $(1-p)/p^2$ |
+| Poisson($\lambda$) | $\lambda$ | $\lambda$ |
+| Uniform($a,b$) | $(a+b)/2$ | $(b-a)^2/12$ |
+| Normal($\mu, \sigma^2$) | $\mu$ | $\sigma^2$ |
+| Exponential($\beta$) | $\beta$ | $\beta^2$ |
+| Gamma($\alpha, \beta$) | $\alpha\beta$ | $\alpha\beta^2$ |
+| Beta($\alpha, \beta$) | $\alpha/(\alpha+\beta)$ | $\alpha\beta/((\alpha+\beta)^2(\alpha+\beta+1))$ |
+| $t_\nu$ | $0$ (if $\nu > 1$) | $\nu/(\nu-2)$ (if $\nu > 2$) |
+| $\chi^2_p$ | $p$ | $2p$ |
+| Multinomial($n,p$) | $np$ | <a href="https://www.youtube.com/watch?v=KSPxHniCtmw">skibidi</a> |
+| Multivariate Normal($\mu, \Sigma$) | $\mu$ | $\Sigma$ |
+
+## Tower rule
+$$
+\mathbb{E}[\mathbb{E}[X|Y]] = \mathbb{E}[X]
+$$
+
 ## Cauchy distribution
 
 
@@ -437,37 +471,154 @@ $$
 
 # Lecture 4 
 
-markov inequality
-chebyshev inequality
-hoeffding inequality
+## Markov inequality
+
+X - non negative RV, 
+$$
+P(X \ge \epsilon) \le \frac{\mathbb{E}[X]}{\epsilon} \\
+\epsilon > 0
+$$
+
+## Chebyshev inequality
+
+$$
+P(|X - E[X]| \ge \epsilon) \le \frac{V[X]}{\epsilon^2} \\
+$$
+- requires finite variance
+- polynomial decay
+
+
+## Hoeffding inequality
+Let X1, X2, ..., Xn be independent RVs such that $a_i \le X_i \le b_i$ almost surely. Let $\bar{X}_n = \frac{1}{n} \sum_{i=1}^{n} X_i$ be the sample mean. Then for any $\epsilon > 0$ it holds that
+
+$$
+P(|\bar{X}_n - \mathbb{E}[\bar{X}_n]| \ge \epsilon) \le 2 \exp\left(\frac{-2n\epsilon^2}{\sum_{i=1}^{n}(b_i - a_i)^2}\right)
+$$
+
+## confidence intervals:
+
+Set the RHS equal to $\delta$ and solve for $\varepsilon$:
+
+- Hoeffding:
+$$
+2 e^{-2n\varepsilon^2/(b-a)^2} = \delta
+\Rightarrow
+\varepsilon = \frac{b-a}{\sqrt{2n}} \sqrt{\ln\!\left(\frac{2}{\delta}\right)}.
+$$
+
+- Chebyshev:
+$$
+\frac{\sigma^2}{n\varepsilon^2} = \delta
+\Rightarrow
+\varepsilon = \sqrt{\frac{\sigma^2}{n\delta}}.
+$$
+
+$$
+
+$$
+
+## Sub-Gaussian and Sub-Exponential random variables
+
+Let X be RV. We call it sub-Gaussian with parameter $\lambda$ if 
+$$
+E[e^{t(X - E[X])}] \le e^{\frac{\lambda^2 t^2}{2}} \text{ for all } t \in \mathbb{R}
+$$
+We call it sub-Exponential with parameters $(\nu, b)$ if
+$$
+E[e^{t(X - E[X])}] \le e^{\frac{\nu^2 t^2}{2}} \text{ for } |t| < \frac{1}{b}
+$$
+- here we bound the moment generating function 
+- SG RVs have tails that decay at least as fast as Gaussian tails
+- SE tail decays slower than Gaussian but still exponentially
+- every SG is SE but not vice versa
+- if X is SG then X^2 is SE
+- bounded RVs are sub-Gaussian
+- sum of SG RVs is SG
+ 
+
+## Types of convergence of random variables
+
+- convergence in probability
+$$
+X_n \xrightarrow{P} X \text{ if for any } \epsilon > 0 \quad P(|X_n - X| \ge \epsilon) \to 0 \text{ as } n \to \infty
+$$
+- convergence almost surely
+$$
+X_n \xrightarrow{a.s.} X \text{ if } P(\lim_{n \rightarrow \infty}X_n = X) = 1
+$$
+  - strongest form of convergence
+  - Xn converges to X for almost every outcome omega in the sample space 
+- convergencce in distribution
+$$
+X_n \xrightarrow{d} X \text{ if } F_{X_n}(x) \to F_X(x) \text{ for all points } x \text{ where } F_X \text{ is continuous}
+$$
+  - sequence of CDFs approaches the limit's CDF (the shape becomes the same)
+- convergence in Lp
+$$
+\lim_{n \to \infty} \mathbb{E}[|X_n - X|^p] = 0
+$$
+
+Hierarchy of implications:
+- almost surely => probability => distribution
+- Lp => probability
+
+## Weak law of large numbers (WLLN)
+
+Let X1, X2, ..., Xn be iid RVs with mean mu and variance sigma^2 < infinity. Let $\bar{X}_n = \frac{1}{n} \sum_{i=1}^{n} X_i$ be the sample mean. Then for any $\epsilon > 0$ it holds that
+
+$$
+\bar{X}_n \xrightarrow{P} \mu \text{ as } n \to \infty \\
+\lim_{n \to \infty} P(|\bar{X}_n - \mu| \ge \epsilon) = 0
+$$
+- requires only finite variance
+
+## Strong law of large numbers
+
+Let X1, X2, ..., Xn be iid RVs with mean mu. Let $\bar{X}_n = \frac{1}{n} \sum_{i=1}^{n} X_i$ be the sample mean. Then it holds that
+$$
+\bar{X}_n \xrightarrow{a.s.} \mu \text{ as } n \to \infty \\
+$$
+- requires finite mean (first moment)
+
+## Central limit theorem (CLT)
+Let X1, X2, ..., Xn be iid RVs with mean mu and variance sigma^2 < infinity. Let $\bar{X}_n = \frac{1}{n} \sum_{i=1}^{n} X_i$ be the sample mean. Then it holds that
+$$
+Z_n = \frac{\bar{X}_n - E[\bar{X}_n]}{\sqrt{\text{Var}(\bar{X}_n)}} \xrightarrow{d} N(0,1) \text{ as } n \to \infty
+$$
 
 # Lesson 2
 
 
-# Lecture 5
+# Lecture 5 - Estimation
+
+Bias 
+$$
+Bias(\hat{\theta}) = \mathbb{E}[\hat{\theta}] - \theta
+$$
+
+MSE 
+$$
+MSE = \mathbb{E}[(\hat{\theta} - \theta)^2] = V[\hat{\theta}] + Bias(\hat{\theta})^2
+$$
+
+## DKW Inequality
+Let X1, X2, ..., Xn be iid RVs with CDF F. Let $F_n$ be the empirical CDF. Then for any $\epsilon > 0$ it holds that
+$$
+P(\sup_x |F_n(x) - \hat{F}(x)| > \epsilon) \le 2e^{-2n\epsilon^2}
+$$
+A non-parametric 1-alpha confidence band for F
+$$
+L(x) = \hat{F}(x) - \epsilon \\
+U(x) = \hat{F}(x) + \epsilon \\
+\text{ where } \epsilon = \sqrt{\frac{1}{2n} \ln\left(\frac{2}{\alpha}\right)}
+$$
 
 # Lecture 6
 
-Markov 
-
-$$
-P(X \ge \epsilon) \le \frac{\mathbb{E}[X]}{\epsilon} \\
-\epsilon \text{ is a number } X \text{is an RV such that } \mathbb{E}[X] < \infty
-$$
-
-Chebyshev 
-$$
-\mathbb{P}(|X - E[X]| \ge \epsilon) \le \frac{V[X]}{n\epsilon} 
-
-$$
-
-Hoeffding
-$$
 
 
 
-$$
-
+---
 Additional notes at:
 https://bluej1.github.io/IntroDSExamMaterial/
 

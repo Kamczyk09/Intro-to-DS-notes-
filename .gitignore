@@ -3,3 +3,4 @@ data
 .ipynb_checkpoints
 Introduction\ to\ DS/
 .venv
+Lectures/__pycache__
