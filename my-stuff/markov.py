@@ -63,7 +63,7 @@ def is_reversible(matrix):
     # is this symmetric?
     return np.allclose(weighted_P, weighted_P.T)
 
-for mat in list_of_matrices[::2]:
+for mat in [problem3_A, problem3_D]:
     print("Irreducible:", is_irreducible_nx(mat))
 
     

@@ -361,13 +361,79 @@ $$
 \mathbb{E}[|X - \mathbb{E}[X]|]
 $$
 
+<u>If X1, X2, ..., Xn are independent then the variance of the sum is the sum of the variances</u>
+
 ## Covariance 
 
 $$
 Cov(X,Y) = \mathbb{E}((X - \mathbb{E}[X])(Y - \mathbb{E}[Y])) = \\
 = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]
 $$
-how related are X and Y
+how related are X and Y, how strong the linear relationship is
+Correlation is normalized covariance
+$$
+\rho_{X,Y} = \frac{Cov(X,Y)}{\sqrt{\mathbb{V}[X] \mathbb{V}[Y]}} \in [-1, 1]
+$$
+
+## Cauchy distribution
+
+
+$$
+f_X(x) =\frac{1}{\pi(1+x^2)}
+$$
+It's mean does not exist because Cauchy has thic tails and hence extreme observations are common
+
+## Moments of random variables 
+
+The k-th moment of a random variable X is defined as
+$$
+\mu'_k = \mathbb{E}[X^k]
+$$
+
+The k-th central moment of a random variable X is defined as
+$$
+\mu_k = \mathbb{E}[(X - \mathbb{E}[X])^k]
+$$
+
+Moment generating function (MGF)
+
+
+$$
+M_X(t) = \mathbb{E}[e^{tX}] = \sum_x e^{tx} f_X(x)
+$$
+
+We obtain the moments of X by differentiating MGF and evaluating at t=0
+$$
+\mu'_k = M_X^{(k)}(0)
+$$
+
+Notable moments
+- 1st moment = expectation
+- 2nd central moment = variance
+- 3rd central moment = skewness - asymmetry of the distribution
+- 4th central moment = kurtosis - "tailedness" of the distribution, measure of the heaviness of the tails, e.g.
+  - normal distribution kurtosis = 3
+  - Cauchy distribution kurtosis = infinity
+  - exponential distribution kurtosis = 9
+  - the higher the kurtosis, the heavier the tails -> more prone to outliers and slower convergence to the mean
+
+If kth moment exists and if j<k then the jth moment also exists
+
+--- 
+If X1, ..., Xn are random variables then we define the sample mean and sample variance as:
+
+
+$$
+\bar{X}_n = \frac{1}{n} \sum_{i=1}^{n} X_i \\
+S_n^2 = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X}_n)^2
+$$
+
+If X1, ..., Xn are iid with mean mu and variance sigma^2 then
+$$
+\mathbb{E}[\bar{X}_n] = \mu \\ 
+\mathbb{V}[\bar{X}_n] = \frac{\sigma^2}{n} \\ 
+\mathbb{E}[S_n^2] = \sigma^2
+$$
 
 # Lecture 4 
 
@@ -402,3 +468,8 @@ $$
 
 $$
 
+Additional notes at:
+https://bluej1.github.io/IntroDSExamMaterial/
+
+solutions to exercises:
+https://github.com/sajad13901/Statistics_Wasserman/tree/main
