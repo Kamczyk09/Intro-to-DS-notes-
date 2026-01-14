@@ -613,9 +613,178 @@ U(x) = \hat{F}(x) + \epsilon \\
 \text{ where } \epsilon = \sqrt{\frac{1}{2n} \ln\left(\frac{2}{\alpha}\right)}
 $$
 
-# Lecture 6
+# Lecture 6 - Random variable generation
+
+## Congruential generator 
+
+Parameters:
+- a - multiplier
+- b - increment
+- m - modulus
+
+$$
+D(x) = (ax + b) \mod m \\
+$$
+
+## Hull-Dobell theorem
+Congruential generator (a, b, M) has period M iff:
+- gcd(b,M) = 1
+- p divides a-1 for every prime p that divides M
+- 4 divides a-1 if 4 divides M
+
+Examples of (a,b,M):
+- (1103515245,12345,2**32)
+- (29,12345,2**32)
 
 
+## Accept-Reject sampler
+To sample from a distribution with PDF f(x):
+1. Choose a proposal distribution with PDF g(x) such that f(x) <= c*g(x) for some c > 0
+2. Repeat:
+3. Sample Y from g(x)
+4. Sample U from Uniform(0,1)
+5. If U <= f(Y)/(c*g(Y)), return Y; else, go back to step 3
+6. The accepted samples follow the distribution with PDF f(x)
+
+
+## Bax-Muller 
+To generate standard normal RVs:
+1. Generate U1, U2 ~ Uniform(0,1)
+2. Compute:
+$$
+Z_0 = \sqrt{-2 \ln(U_1)} \cos(2\pi U_2) \\
+Z_1 = \sqrt{-2 \ln(U_1)} \sin(2\pi U_2)
+$$
+3. Z0 and Z1 are independent standard normal RVs
+
+## Inverse transform sampling
+
+**Goal:** Generate random samples from a target distribution $X$ using a source of uniform random numbers $U \sim \text{Unif}(0,1)$.
+
+**Prerequisites:**
+1. You must know the Cumulative Distribution Function (CDF), $F(x)$.
+2. You must be able to calculate the inverse function, $F^{-1}(u)$.
+
+## The Algorithm
+1. **Generate** a random number $u$ from the uniform distribution $[0, 1]$.
+2. **Compute** $x = F^{-1}(u)$.
+3. **Result:** The value $x$ is a random draw from the distribution defined by $F$.
+
+## Mathematical Proof
+Let $U \sim \text{Unif}(0,1)$. We define $X = F^{-1}(U)$.
+We verify the CDF of $X$:
+
+$$
+\begin{aligned}
+P(X \le x) &= P(F^{-1}(U) \le x) \\
+           &= P(U \le F(x)) \quad \text{(Applying } F \text{ to both sides)} \\
+           &= F(x) \quad \text{(Property of Uniform distribution)}
+\end{aligned}
+$$
+
+**Conclusion:** The variable $X$ has the CDF $F(x)$, meaning it follows the desired distribution.
+
+## Example: Exponential Distribution
+* **PDF:** $f(x) = \lambda e^{-\lambda x}$
+* **CDF:** $F(x) = 1 - e^{-\lambda x}$
+* **Inverse Step:**
+  Let $u = 1 - e^{-\lambda x}$
+  $$e^{-\lambda x} = 1 - u$$
+  $$-\lambda x = \ln(1 - u)$$
+  $$x = -\frac{1}{\lambda} \ln(1 - u)$$
+* **Sampling Formula:** Generate $u$, then compute $x = -\frac{\ln(1-u)}{\lambda}$.
+
+
+# Other notes
+
+## Train-Validation-Test splitting 
+
+IF we want to achieve 60/15/25 split:
+1. First get 40% of the data as a 'temp' set and 60% as train set
+2. Then split the 'temp' set into validation and test sets according to the formula
+$$
+test\_size = \frac{P_{test}}{P_{test} + P_{val}} 
+$$
+
+
+## Bennett's inequality
+Let X1, X2, ..., Xn be independent, centered (mean 0) sub-Exponential RVs with parameters (nu_i, b_i). Let S_n = sum Xi. Then for any t > 0 it holds that
+$$
+P(S_n \ge t) \le \exp\left(-\frac{n\nu_n^2}{b_n^2} h\left(\frac{b_n t}{n \nu_n^2}\right)\right)
+$$
+where
+$$
+\nu_n^2 = \frac{1}{n} \sum_{i=1}^{n} \nu_i^2, \quad b_n = \max_{i} b_i, \quad h(u) = (1+u)\ln(1+u) - u
+$$
+
+Bernstein's inequality is a simpler version of Bennett's inequality
+
+$$
+P(S_n \ge t) \le \exp\left(-\frac{t^2/2}{n\nu_n^2 + b_n t/3}\right)
+$$
+Epsilon confidence interval:
+$$
+\varepsilon = \sqrt{\frac{2\sigma^2}{n} \ln\left(\frac{2}{\delta}\right)} + \frac{M}{3n} \ln\left(\frac{2}{\delta}\right)
+$$
+sigma^2 - average of variances of Xi
+M = maximum possible range/bound of Xi
+delta - confidence level (e.g. 0.01)
+
+## Exam 2022 concentration of measure
+
+## 1. Theoretical Background
+
+Concentration of measure defines how fast a random variable (like an empirical mean) converges to its true expected value as the sample size $n$ grows.
+
+### Exponential Concentration (Strong)
+The probability of a deviation drops extremely fast (exponentially) as $n$ increases.
+$$P(|Z - \mathbb{E}[Z]| \geq \epsilon) \leq C_1 e^{-C_2 n \epsilon^2}$$
+This requires the underlying data to have **"light tails"** (extreme values are very rare).
+* **Sub-Gaussian:** Tails decay like a Gaussian ($e^{-x^2}$). Examples: Normal distribution, Bounded variables (Bernoulli, Uniform).
+* **Sub-Exponential:** Tails decay like an Exponential ($e^{-|x|}$). Examples: Exponential distribution, Chi-squared.
+
+### Polynomial Concentration (Weak)
+The probability drops much slower (polynomially), usually driven by **Chebyshev’s Inequality**.
+$$P(|Z - \mathbb{E}[Z]| \geq \epsilon) \leq \frac{\text{Var}(Z)}{\epsilon^2} \propto \frac{1}{n \epsilon^2}$$
+This only requires **Finite Variance**. Extreme values are possible, so we cannot guarantee the tight exponential bound.
+
+---
+
+## Part 1: Exponential Concentration
+**Correct Answers:** `[1, 2, 5, 9, 10]`
+
+These variables have "light tails" or are bounded, allowing for strong bounds like Hoeffding's or Bernstein's inequalities.
+
+* **1. The empirical mean of i.i.d. sub-Gaussian random variables**
+    * **Why:** By definition, sums of independent sub-Gaussian variables are sub-Gaussian. We can use **Hoeffding's Inequality**.
+* **2. The empirical mean of i.i.d. sub-Exponential random variables**
+    * **Why:** Sums of sub-Exponentials are sub-Exponential. We can use **Bernstein's Inequality**, which gives an exponential bound (specifically a mix of $e^{-n\epsilon^2}$ for small deviations and $e^{-n\epsilon}$ for large ones).
+* **5. The empirical variance of i.i.d. sub-Gaussian random variables**
+    * **Why:** The empirical variance depends on the average of $X^2$. If $X$ is sub-Gaussian (tail $e^{-x^2}$), then $Y = X^2$ is **sub-Exponential** (tail $e^{-y}$). Since we are taking the mean of sub-Exponential variables ($X^2$), this falls back to Case 2.
+* **9. The empirical mean of i.i.d. deterministic random variables**
+    * **Why:** A deterministic variable is a constant. The variance is 0. It equals its mean with probability 1 (infinite concentration).
+* **10. The empirical tenth moment of i.i.d. Bernoulli random variables**
+    * **Why:** A Bernoulli variable $B$ takes values $\{0, 1\}$. $B^{10}$ also takes values $\{0, 1\}$. All bounded variables are **sub-Gaussian**, so their mean concentrates exponentially (Hoeffding).
+
+---
+
+## Part 2: Weak Concentration
+**Correct Answers:** `[3, 6, 7, 8]`
+
+These variables have tails that are too "heavy" for exponential bounds but still have finite variance, satisfying Chebyshev's inequality.
+
+* **3. The empirical mean of i.i.d. random variables with finite variance**
+    * **Why:** We only know the variance is finite. We don't know if higher moments exist or if tails decay exponentially. We can strictly only apply **Chebyshev's Inequality**.
+* **6. The empirical variance of i.i.d. sub-Exponential random variables**
+    * **Why:** Empirical variance relies on $X^2$. If $X$ is sub-Exponential ($e^{-|x|}$), then $Y = X^2$ has a tail that behaves like $e^{-\sqrt{y}}$. This is heavier than a standard exponential tail ($e^{-y}$). It does *not* satisfy the sub-Exponential definition for Bernstein's bound, but since all moments exist, the variance is finite.
+* **7. The empirical third moment of i.i.d. sub-Gaussian random variables**
+    * **Why:** We look at $X^3$. If $X$ is sub-Gaussian ($e^{-x^2}$), then $Z = X^3$ has tails like $e^{-z^{2/3}}$. This decay is slower than exponential ($e^{-z}$), so no Hoeffding/Bernstein. However, finite moments exist.
+* **8. The empirical fourth moment of i.i.d. sub-Gaussian random variables**
+    * **Why:** We look at $X^4$. If $X$ is sub-Gaussian ($e^{-x^2}$), then $W = X^4$ has tails like $e^{-\sqrt{w}}$. This is significantly slower than exponential.
+
+### Excluded Case
+* **4. The empirical variance of i.i.d. random variables with finite variance**
+    * **Why:** To compute the *concentration* of the variance, we need the **variance of the sample variance**, which depends on the **fourth moment** ($E[X^4]$). The problem only guarantees finite variance ($E[X^2] < \infty$), not finite fourth moment.
 
 
 ---
@@ -624,3 +793,8 @@ https://bluej1.github.io/IntroDSExamMaterial/
 
 solutions to exercises:
 https://github.com/sajad13901/Statistics_Wasserman/tree/main
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
+</script>
