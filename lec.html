@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>lec.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="introduction-to-data-science">Introduction to Data Science</h1>
+<p>Passing the subject:</p>
+<ul>
+<li>hand-in assignments</li>
+<li>final exam in January
+<ul>
+<li>computer based</li>
+<li>20/40 points</li>
+<li>four additional programming assignments, each 24 points, you can get up to 6 points on the main exam for solving them</li>
+</ul>
+</li>
+</ul>
+<h1 id="lecture-1">Lecture 1</h1>
+<p>Definition: An experiment is an activity that produces a distinct outcome.</p>
+<ul>
+<li>$ \Omega $ - sample space that contains all possible outcomes</li>
+</ul>
+<p><u>Ex</u>: Tossing a coin</p>
+<p>$$
+\Omega = { H, T}
+$$</p>
+<p>Event: a set of outcomes</p>
+<p>An event happens after an experiment if the outcome $ \omega \in \Omega $;  $ \omega \in A $</p>
+<p><u>What is probability?</u></p>
+<p>(Idea) (Long term relative frequency)
+Let's repeat an experiment n-times and count how many times an event A happens</p>
+<p>$$
+N(A,n) = \frac{\text{number of times A happens}}{n}
+$$</p>
+<ul>
+<li>assume the experiment is independent</li>
+</ul>
+<p>Example: if $N(A,n) \to \frac{1}{2}$ as $n \to \infty$ then we could say &quot;50%&quot; chance of happening probability</p>
+<p>Rules</p>
+<ol>
+<li>$N( \Omega, n ) = 1$ - something happens</li>
+<li>Take two events, A, B. $A \cap B = \emptyset$, then $N(A \cup B, n) = N(A, n) + N(B, n)$</li>
+</ol>
+<p>Definition: A function $\mathbb{P}$ that assigns real values to each event is a probability &quot;distribution&quot;/&quot;measure&quot;</p>
+<p>if $0 \le \mathbb{P} \le 1$</p>
+<ol>
+<li>$\mathbb{P}(\Omega) = 1$</li>
+<li>A, B  $A \cap B = \emptyset$, $\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B)$</li>
+</ol>
+<p>some other notations and cases:</p>
+<ul>
+<li>A and A' (complement) $\mathbb{P}(A) + \mathbb{P}(A') = 1$</li>
+<li>A and B intersect $\mathbb{P}(A \cap B) = \mathbb{P}(A) + \mathbb{P}(B) - \mathbb{P}(A \cup B)$</li>
+</ul>
+<p>Bollies inequality (union bound):
+$$
+\mathbb{P}(A \cup B) \le \mathbb{P}(A) + \mathbb{P}(B)
+$$</p>
+<h2 id="conditional-probability">Conditional probability</h2>
+<p>What is the probability of A, given that I know B happens?</p>
+<ul>
+<li>B becomes the new $\Omega$</li>
+</ul>
+<p>$$
+\mathbb{P}(A|B) = \frac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)}
+$$</p>
+<p>Example: SMS messages</p>
+<ul>
+<li>A - &quot;message is spam&quot;</li>
+<li>B - &quot;free appears in the text&quot;</li>
+</ul>
+<h2 id="law-of-total-probability">Law of total probability</h2>
+<p>Let $A_{1....n}$, $A_i \cap A_j = \emptyset$</p>
+<p>$$
+\bigcup_{i=1}^{n} A_i = \Omega
+$$</p>
+<p>then for any $B \in \Omega$</p>
+<p>$$
+\mathbb{P}(B) = \sum_{i=1}^{n} \mathbb{P}(B|A_i) \mathbb{P}(A_i) = \sum_{i=1}^{n} \mathbb{P}(B \cap A_i)
+$$</p>
+<p>basically to get probability of B, sum its itersections with A (A makes up the whole omega space)</p>
+<h1 id="lecture-2">Lecture 2</h1>
+<h2 id="random-variables">Random variables</h2>
+<p>A random variable (RV) is a mapping
+$$
+X: \Omega \to \mathbb{R}
+$$
+that assignes a real number $X(\omega)$ to each outcome $\omega$.</p>
+<p>$$
+\mathbb{P}(X \le 1) := \mathbb{P}({\omega \in \Omega : X(\omega) \le 1})
+$$</p>
+<p>all outcomes such that $X(\omega) \le 1$</p>
+<p>Example.</p>
+<p>$\Omega$ = { all possible texts of length 100}</p>
+<p>Experiment: Receiving a text of length &lt;= 100 $\omega$</p>
+<p>X(u) = 1 if omega is spam, 0 if not
+$$
+X(u) = \begin{cases}
+1 &amp; \text{if } \omega \text{ is spam} \
+0 &amp; \text{if not}
+\end{cases}
+$$</p>
+<p>$$
+P(X=1) = P(\omega \text{ is spam})
+$$</p>
+<p><strong>Cumulative distribution function CDF</strong></p>
+<p>$$
+F_X: \mathbb{R} \to [0,1] \
+F_X(x) = P(X \le x)
+$$
+Properties of CDF:</p>
+<ul>
+<li>
+<p>non decreasing $x1 &lt; x2$ implies that $F_X(x1) \le F_X(x2)$</p>
+</li>
+<li>
+<p>F is normalized $\lim_{x \to -\infty} F_X(x) = 0$ and $\lim_{x \to \infty} F_X(x) = 1$</p>
+</li>
+<li>
+<p>F is right continuous</p>
+</li>
+<li>
+<p>CDF gives the probability that an RV X will take a value less than or equal to a specific value x</p>
+</li>
+</ul>
+<p>If X is discrete, we can define a <strong>probability mass function</strong> (PMF)</p>
+<p>$$
+f_X(x) = P(X = x)
+$$</p>
+<p>Connection to the CDF:</p>
+<p>$$
+F_X(x) = \sum_{t \le x} f_X(t)
+$$</p>
+<p>For a continuous random variable we distinguish a <strong>probability density function</strong> (PDF) $f_X(x)$. It holds that for PDF:
+$$
+F_X(x) = \int_{-\infty}^x f_X(t)dt \
+\text{ and } \
+f_X(x) = F'_X(x)
+$$</p>
+<ul>
+<li>PDF describes the relative likelihood for a continuous random variable to take on a specific value</li>
+<li>this is not a probability, it can be greater than 1</li>
+<li>total area under the curve must be 1</li>
+</ul>
+<p>Inverse CDF (quantile function)</p>
+<p>$$
+F^{-1}(q) = \inf{x: F(x) &gt; q} \
+q \in [0,1]
+$$
+If F is strictly increasing and continuous then $F^{-1}(F(x)) = x$ and $F(F^{-1}(q)) = q$</p>
+<ul>
+<li>Inverse CDF takes probability q and returns the corresponding value of x (an outcome)</li>
+</ul>
+<p>We call</p>
+<ul>
+<li>first quartile $F^{-1}(0.25)$</li>
+<li>median/second quartile $F^{-1}(0.5)$</li>
+<li>third quartile $F^{-1}(0.75)$</li>
+</ul>
+<h2 id="transformations-of-random-variables">Transformations of random variables</h2>
+<p>X is an RV with PDF f_X and CDF F_X. Let Y = g(X) be a transformation of X. How do we compute PDF and CDF of Y?</p>
+<p>$$
+f_Y(y) = f_X(g^{-1}(y)) \cdot | \frac{d}{dy} g^{-1}(y) |
+$$</p>
+<h2 id="some-important-discrete-random-variables">Some important discrete random variables</h2>
+<p><strong>Point Mass Distribution</strong>
+$$
+X \sim \delta_a \text{ if } P(X=a) = 1
+$$</p>
+<p>$$
+F(X) =
+\begin{cases}
+0 &amp; x &lt; a \
+1 &amp; x \ge a
+\end{cases} \
+f(x) = 1 \text{ if } x = a \text{ else } 0
+$$</p>
+<p><strong>Discrete Uniform distribution</strong>
+$$
+f(x) = \begin{cases}
+\frac{1}{k} &amp; \text{for } x = 1,\ldots,k \
+0 &amp; \text{otherwise}
+\end{cases}
+$$</p>
+<p><strong>Bernoulli distribution</strong>
+P(X=1) = p, P(X=0) = 1-p
+$$
+X \sim Bernoulli(p) \
+f(x) = p^x(1-p)^{1-x}
+$$</p>
+<p><strong>Binomial distribution</strong>
+Number of successes in n independent Bernoulli trials with success probability p</p>
+<p>$$
+X \sim Binomial(n, p) \
+f(x) = \binom{n}{x} p^x (1-p)^{n-x} \text{ for } x = 0, 1, ..., n
+$$
+x - number of successes</p>
+<p><strong>Geometric Distribution</strong>
+$$
+X \sim Geom(p) \
+P(X=k) = p(1-p)^{k-1}, \quad k \ge 1
+$$</p>
+<ul>
+<li>interpretation: number of trials until first success in independent Bernoulli trials with success probability p</li>
+</ul>
+<p><strong>Poisson Distribution</strong>
+$$
+X \sim Poisson(\lambda) \
+f(x) = \frac{\lambda^x e^{-\lambda}}{x!}, \quad x \ge 0
+$$</p>
+<h2 id="some-important-continuous-random-variables">Some important continuous random variables</h2>
+<p><strong>Uniform Distribution</strong>
+$$
+X \sim U(a,b) \
+f(x) = \begin{cases}
+\frac{1}{b-a} &amp; a \le x \le b \
+0 &amp; \text{otherwise}
+\end{cases}
+$$
+Distribution function is
+$$
+F(x) = \begin{cases}
+0 &amp; x &lt; a \
+\frac{x-a}{b-a} &amp; a \le x \le b \
+1 &amp; x &gt; b
+\end{cases}
+$$</p>
+<p><strong>Normal Gaussian Distribution</strong>
+$$
+X \sim N(\mu, \sigma^2) \
+f(x) = \frac{1}{\sigma \sqrt{2\pi}} \exp{-\frac{1}{2\sigma^2}(x-\mu)^2}
+$$</p>
+<ul>
+<li>standard normal has sigma=1 and mean=0</li>
+</ul>
+<p>$$
+X \sim N(\mu, \sigma^2) \
+\text{then } Z = \frac{X-\mu}{\sigma} \sim N(0,1)
+$$</p>
+<ul>
+<li>sum of gaussian independent RVs has the following distribution</li>
+</ul>
+<p>$$
+\sum X_i \sim N(\sum \mu_i, \sum \sigma_i^2)
+$$</p>
+<p>We can compute any probabilities as long as we compute the CDF $\Phi(z)$ of standard Normal</p>
+<p><strong>Exponential distribution</strong>
+$$
+X \sim Exp(\beta) \
+f(x) = \frac{1}{\beta} e^{-x/\beta}, \quad x &gt; 0
+$$</p>
+<h1 id="lecture-3">Lecture 3</h1>
+<h2 id="expectation">Expectation</h2>
+<p>Toss a dice 100 times</p>
+<p>$$</p>
+<p>\frac{1 + 3 + 5 + 2 + ... + 3}{100} = 3.1 (?)
+$$</p>
+<p>$$
+\frac{#1}{100} * 1 + \frac{#2}{100} * 2 + ... + \frac{#6}{100} * 6  = \ = 1 * P(X=1) + 2 * P(X=2) + ... + 6 * P(X=6)
+$$</p>
+<p>$$
+<input type="checkbox" id="checkbox0" checked="true"><label for="checkbox0">= \sum_x x f_X(x) \text{ - expectation}\</label>
+\text{reminder - }f_X(x) - P(X=x)
+$$</p>
+<p>What about random vectors? X is $R^m$ and discrete</p>
+<p>$$
+<input type="checkbox" id="checkbox1" checked="true"><label for="checkbox1">= \sum_x x f_X(x) = (\sum_{x_1, x_2, ..., x_m}x_1f_X(x_1, x_2, ..., x_m), \..., \sum_{x_1, x_2, ..., x_m}x_mf_X(x_1, x_2, ..., x_m))</label>
+$$</p>
+<p>Linearity of expectation</p>
+<p>Say we have X and Y RV's Z = (X, Y)</p>
+<p>$$
+\mathbb{E}[Z] = \mathbb{E}[X + Y] = \sum_{x,y}(x+y)f_{X,Y}(x,y) = \ = \sum_{x,y}x<em>f_{X,Y}(x,y) + \sum_{x,y}y</em><input type="checkbox" id="checkbox2" checked="true"><label for="checkbox2">+ \mathbb{E}[Y]</label>
+$$</p>
+<h2 id="law-of-the-lazy-statistician-lols">Law of the lazy statistician (LOLS)</h2>
+<p>Let's say we have a random variable X and a function $f : \mathbb{R} \to \mathbb{R}$</p>
+<p>Let Y = f(X)</p>
+<p>$$
+\mathbb{E}[Y] = \sum_yyf_Y(y) = \mathbb{E}[f(X)] = \sum_x f(x) f_X(x)
+$$</p>
+<p>$f_Y(y)$ might be harder to find than $f_X(x)$</p>
+<h2 id="variance">Variance</h2>
+<p>$$
+<input type="checkbox" id="checkbox3" checked="true"><label for="checkbox3">= \mathbb{E}[(X - \mathbb{E}[X])^2] = \mathbb{E}[X^2] - (\mathbb{E}[X])^2</label>
+$$
+variance is the expectation of the squared deviation from the mean</p>
+<p>Mean absolute deviation</p>
+<p>$$
+\mathbb{E}[|X - \mathbb{E}[X]|]
+$$</p>
+<p><u>If X1, X2, ..., Xn are independent then the variance of the sum is the sum of the variances</u></p>
+<h2 id="covariance">Covariance</h2>
+<p>$$
+Cov(X,Y) = \mathbb{E}((X - \mathbb{E}[X])(Y - \mathbb{E}[Y])) = \
+= \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]
+$$
+how related are X and Y, how strong the linear relationship is
+Correlation is normalized covariance
+$$
+<input type="checkbox" id="checkbox4" checked="true"><label for="checkbox4">\mathbb{V}[Y]}} \in [-1, 1]</label>
+$$</p>
+<p>If X and Y are RVs then
+$$
+V(X+Y) = V(X) + V(Y) + 2Cov(X,Y)
+$$
+If X and Y are independent then
+$$
+V(X+Y) = V(X) + V(Y)
+$$</p>
+<h2 id="mean-and-variance-of-some-important-distributions">Mean and variance of some important distributions</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Distribution</th>
+<th style="text-align:left">Mean</th>
+<th style="text-align:left">Variance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Point mass at $a$</td>
+<td style="text-align:left">$a$</td>
+<td style="text-align:left">$0$</td>
+</tr>
+<tr>
+<td style="text-align:left">Bernoulli($p$)</td>
+<td style="text-align:left">$p$</td>
+<td style="text-align:left">$p(1-p)$</td>
+</tr>
+<tr>
+<td style="text-align:left">Binomial($n,p$)</td>
+<td style="text-align:left">$np$</td>
+<td style="text-align:left">$np(1-p)$</td>
+</tr>
+<tr>
+<td style="text-align:left">Geometric($p$)</td>
+<td style="text-align:left">$1/p$</td>
+<td style="text-align:left">$(1-p)/p^2$</td>
+</tr>
+<tr>
+<td style="text-align:left">Poisson($\lambda$)</td>
+<td style="text-align:left">$\lambda$</td>
+<td style="text-align:left">$\lambda$</td>
+</tr>
+<tr>
+<td style="text-align:left">Uniform($a,b$)</td>
+<td style="text-align:left">$(a+b)/2$</td>
+<td style="text-align:left">$(b-a)^2/12$</td>
+</tr>
+<tr>
+<td style="text-align:left">Normal($\mu, \sigma^2$)</td>
+<td style="text-align:left">$\mu$</td>
+<td style="text-align:left">$\sigma^2$</td>
+</tr>
+<tr>
+<td style="text-align:left">Exponential($\beta$)</td>
+<td style="text-align:left">$\beta$</td>
+<td style="text-align:left">$\beta^2$</td>
+</tr>
+<tr>
+<td style="text-align:left">Gamma($\alpha, \beta$)</td>
+<td style="text-align:left">$\alpha\beta$</td>
+<td style="text-align:left">$\alpha\beta^2$</td>
+</tr>
+<tr>
+<td style="text-align:left">Beta($\alpha, \beta$)</td>
+<td style="text-align:left">$\alpha/(\alpha+\beta)$</td>
+<td style="text-align:left">$\alpha\beta/((\alpha+\beta)^2(\alpha+\beta+1))$</td>
+</tr>
+<tr>
+<td style="text-align:left">$t_\nu$</td>
+<td style="text-align:left">$0$ (if $\nu &gt; 1$)</td>
+<td style="text-align:left">$\nu/(\nu-2)$ (if $\nu &gt; 2$)</td>
+</tr>
+<tr>
+<td style="text-align:left">$\chi^2_p$</td>
+<td style="text-align:left">$p$</td>
+<td style="text-align:left">$2p$</td>
+</tr>
+<tr>
+<td style="text-align:left">Multinomial($n,p$)</td>
+<td style="text-align:left">$np$</td>
+<td style="text-align:left"><a href="https://www.youtube.com/watch?v=KSPxHniCtmw">skibidi</a></td>
+</tr>
+<tr>
+<td style="text-align:left">Multivariate Normal($\mu, \Sigma$)</td>
+<td style="text-align:left">$\mu$</td>
+<td style="text-align:left">$\Sigma$</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tower-rule">Tower rule</h2>
+<p>$$
+\mathbb{E}[\mathbb{E}[X|Y]] = \mathbb{E}[X]
+$$</p>
+<h2 id="cauchy-distribution">Cauchy distribution</h2>
+<p>$$
+f_X(x) =\frac{1}{\pi(1+x^2)}
+$$
+It's mean does not exist because Cauchy has thic tails and hence extreme observations are common</p>
+<h2 id="moments-of-random-variables">Moments of random variables</h2>
+<p>The k-th moment of a random variable X is defined as
+$$
+\mu'_k = \mathbb{E}[X^k]
+$$</p>
+<p>The k-th central moment of a random variable X is defined as
+$$
+\mu_k = \mathbb{E}[(X - \mathbb{E}[X])^k]
+$$</p>
+<p>Moment generating function (MGF)</p>
+<p>$$
+M_X(t) = \mathbb{E}[e^{tX}] = \sum_x e^{tx} f_X(x)
+$$</p>
+<p>We obtain the moments of X by differentiating MGF and evaluating at t=0
+$$
+\mu'_k = M_X^{(k)}(0)
+$$</p>
+<p>Notable moments</p>
+<ul>
+<li>1st moment = expectation</li>
+<li>2nd central moment = variance</li>
+<li>3rd central moment = skewness - asymmetry of the distribution</li>
+<li>4th central moment = kurtosis - &quot;tailedness&quot; of the distribution, measure of the heaviness of the tails, e.g.
+<ul>
+<li>normal distribution kurtosis = 3</li>
+<li>Cauchy distribution kurtosis = infinity</li>
+<li>exponential distribution kurtosis = 9</li>
+<li>the higher the kurtosis, the heavier the tails -&gt; more prone to outliers and slower convergence to the mean</li>
+</ul>
+</li>
+</ul>
+<p>If kth moment exists and if j&lt;k then the jth moment also exists</p>
+<hr>
+<p>If X1, ..., Xn are random variables then we define the sample mean and sample variance as:</p>
+<p>$$
+\bar{X}<em>n = \frac{1}{n} \sum</em>{i=1}^{n} X_i \
+S_n^2 = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X}_n)^2
+$$</p>
+<p>If X1, ..., Xn are iid with mean mu and variance sigma^2 then
+$$
+\mathbb{E}[\bar{X}_n] = \mu \
+\mathbb{V}[\bar{X}_n] = \frac{\sigma^2}{n} \
+\mathbb{E}[S_n^2] = \sigma^2
+$$</p>
+<h1 id="lecture-4">Lecture 4</h1>
+<h2 id="markov-inequality">Markov inequality</h2>
+<p>X - non negative RV,
+$$
+P(X \ge \epsilon) \le \frac{\mathbb{E}[X]}{\epsilon} \
+\epsilon &gt; 0
+$$</p>
+<h2 id="chebyshev-inequality">Chebyshev inequality</h2>
+<p>$$
+P(|X - E[X]| \ge \epsilon) \le \frac{V[X]}{\epsilon^2} \
+$$</p>
+<ul>
+<li>requires finite variance</li>
+<li>polynomial decay</li>
+</ul>
+<h2 id="hoeffding-inequality">Hoeffding inequality</h2>
+<p>Let X1, X2, ..., Xn be independent RVs such that $a_i \le X_i \le b_i$ almost surely. Let $\bar{X}<em>n = \frac{1}{n} \sum</em>{i=1}^{n} X_i$ be the sample mean. Then for any $\epsilon &gt; 0$ it holds that</p>
+<p>$$
+P(|\bar{X}_n - \mathbb{E}[\bar{X}<em>n]| \ge \epsilon) \le 2 \exp\left(\frac{-2n\epsilon^2}{\sum</em>{i=1}^{n}(b_i - a_i)^2}\right)
+$$</p>
+<h2 id="confidence-intervals">confidence intervals:</h2>
+<p>Set the RHS equal to $\delta$ and solve for $\varepsilon$:</p>
+<ul>
+<li>Hoeffding:
+$$
+2 e^{-2n\varepsilon^2/(b-a)^2} = \delta
+\Rightarrow
+\varepsilon = \frac{b-a}{\sqrt{2n}} \sqrt{\ln!\left(\frac{2}{\delta}\right)}.
+$$</li>
+</ul>
+<p>OR equivalently</p>
+<p>$$
+\epsilon = \sqrt{\frac{(b-a)^2\log(2/(1-\alpha))}{2n}}
+$$</p>
+<p>alpha is the confidence level, here 0.95, so inside epsilon we use 1-alpha</p>
+<ul>
+<li>Chebyshev:
+$$
+\frac{\sigma^2}{n\varepsilon^2} = \delta
+\Rightarrow
+\varepsilon = \sqrt{\frac{\sigma^2}{n\delta}}.
+$$</li>
+</ul>
+<p>$$</p>
+<p>$$</p>
+<h2 id="sub-gaussian-and-sub-exponential-random-variables">Sub-Gaussian and Sub-Exponential random variables</h2>
+<p>Let X be RV. We call it sub-Gaussian with parameter $\lambda$ if
+$$
+E[e^{t(X - E[X])}] \le e^{\frac{\lambda^2 t^2}{2}} \text{ for all } t \in \mathbb{R}
+$$
+We call it sub-Exponential with parameters $(\nu, b)$ if
+$$
+E[e^{t(X - E[X])}] \le e^{\frac{\nu^2 t^2}{2}} \text{ for } |t| &lt; \frac{1}{b}
+$$</p>
+<ul>
+<li>here we bound the moment generating function</li>
+<li>SG RVs have tails that decay at least as fast as Gaussian tails</li>
+<li>SE tail decays slower than Gaussian but still exponentially</li>
+<li>every SG is SE but not vice versa</li>
+<li>if X is SG then X^2 is SE</li>
+<li>bounded RVs are sub-Gaussian</li>
+<li>sum of SG RVs is SG</li>
+</ul>
+<h2 id="types-of-convergence-of-random-variables">Types of convergence of random variables</h2>
+<ul>
+<li>convergence in probability
+$$
+X_n \xrightarrow{P} X \text{ if for any } \epsilon &gt; 0 \quad P(|X_n - X| \ge \epsilon) \to 0 \text{ as } n \to \infty
+$$</li>
+<li>convergence almost surely
+$$
+X_n \xrightarrow{a.s.} X \text{ if } P(\lim_{n \rightarrow \infty}X_n = X) = 1
+$$
+<ul>
+<li>strongest form of convergence</li>
+<li>Xn converges to X for almost every outcome omega in the sample space</li>
+</ul>
+</li>
+<li>convergencce in distribution
+$$
+X_n \xrightarrow{d} X \text{ if } F_{X_n}(x) \to F_X(x) \text{ for all points } x \text{ where } F_X \text{ is continuous}
+$$
+<ul>
+<li>sequence of CDFs approaches the limit's CDF (the shape becomes the same)</li>
+</ul>
+</li>
+<li>convergence in Lp
+$$
+\lim_{n \to \infty} \mathbb{E}[|X_n - X|^p] = 0
+$$</li>
+</ul>
+<p>Hierarchy of implications:</p>
+<ul>
+<li>almost surely =&gt; probability =&gt; distribution</li>
+<li>Lp =&gt; probability</li>
+</ul>
+<h2 id="weak-law-of-large-numbers-wlln">Weak law of large numbers (WLLN)</h2>
+<p>Let X1, X2, ..., Xn be iid RVs with mean mu and variance sigma^2 &lt; infinity. Let $\bar{X}<em>n = \frac{1}{n} \sum</em>{i=1}^{n} X_i$ be the sample mean. Then for any $\epsilon &gt; 0$ it holds that</p>
+<p>$$
+\bar{X}<em>n \xrightarrow{P} \mu \text{ as } n \to \infty \
+\lim</em>{n \to \infty} P(|\bar{X}_n - \mu| \ge \epsilon) = 0
+$$</p>
+<ul>
+<li>requires only finite variance</li>
+</ul>
+<h2 id="strong-law-of-large-numbers">Strong law of large numbers</h2>
+<p>Let X1, X2, ..., Xn be iid RVs with mean mu. Let $\bar{X}<em>n = \frac{1}{n} \sum</em>{i=1}^{n} X_i$ be the sample mean. Then it holds that
+$$
+\bar{X}_n \xrightarrow{a.s.} \mu \text{ as } n \to \infty \
+$$</p>
+<ul>
+<li>requires finite mean (first moment)</li>
+</ul>
+<h2 id="central-limit-theorem-clt">Central limit theorem (CLT)</h2>
+<p>Let X1, X2, ..., Xn be iid RVs with mean mu and variance sigma^2 &lt; infinity. Let $\bar{X}<em>n = \frac{1}{n} \sum</em>{i=1}^{n} X_i$ be the sample mean. Then it holds that
+$$
+Z_n = \frac{\bar{X}_n - E[\bar{X}_n]}{\sqrt{\text{Var}(\bar{X}_n)}} \xrightarrow{d} N(0,1) \text{ as } n \to \infty
+$$</p>
+<h1 id="lesson-2">Lesson 2</h1>
+<h1 id="lecture-5---estimation">Lecture 5 - Estimation</h1>
+<p>Bias
+$$
+Bias(\hat{\theta}) = \mathbb{E}[\hat{\theta}] - \theta
+$$</p>
+<p>MSE
+$$
+MSE = \mathbb{E}[(\hat{\theta} - \theta)^2] = V[\hat{\theta}] + Bias(\hat{\theta})^2
+$$</p>
+<h2 id="dkw-inequality">DKW Inequality</h2>
+<p>Let X1, X2, ..., Xn be iid RVs with CDF F. Let $F_n$ be the empirical CDF. Then for any $\epsilon &gt; 0$ it holds that
+$$
+P(\sup_x |F_n(x) - \hat{F}(x)| &gt; \epsilon) \le 2e^{-2n\epsilon^2}
+$$
+A non-parametric 1-alpha confidence band for F
+$$
+L(x) = \hat{F}(x) - \epsilon \
+U(x) = \hat{F}(x) + \epsilon \
+\text{ where } \epsilon = \sqrt{\frac{1}{2n} \ln\left(\frac{2}{\alpha}\right)}
+$$</p>
+<h1 id="lecture-6---random-variable-generation">Lecture 6 - Random variable generation</h1>
+<h2 id="congruential-generator">Congruential generator</h2>
+<p>Parameters:</p>
+<ul>
+<li>a - multiplier</li>
+<li>b - increment</li>
+<li>m - modulus</li>
+</ul>
+<p>$$
+D(x) = (ax + b) \mod m \
+$$</p>
+<h2 id="hull-dobell-theorem">Hull-Dobell theorem</h2>
+<p>Congruential generator (a, b, M) has period M iff:</p>
+<ul>
+<li>gcd(b,M) = 1</li>
+<li>p divides a-1 for every prime p that divides M</li>
+<li>4 divides a-1 if 4 divides M</li>
+</ul>
+<p>Examples of (a,b,M):</p>
+<ul>
+<li>(1103515245,12345,2**32)</li>
+<li>(29,12345,2**32)</li>
+</ul>
+<h2 id="accept-reject-sampler">Accept-Reject sampler</h2>
+<p>To sample from a distribution with PDF f(x):</p>
+<ol>
+<li>Choose a proposal distribution with PDF g(x) such that f(x) &lt;= c*g(x) for some c &gt; 0</li>
+<li>Repeat:</li>
+<li>Sample Y from g(x)</li>
+<li>Sample U from Uniform(0,1)</li>
+<li>If U &lt;= f(Y)/(c*g(Y)), return Y; else, go back to step 3</li>
+<li>The accepted samples follow the distribution with PDF f(x)</li>
+</ol>
+<h2 id="bax-muller">Bax-Muller</h2>
+<p>To generate standard normal RVs:</p>
+<ol>
+<li>Generate U1, U2 ~ Uniform(0,1)</li>
+<li>Compute:
+$$
+Z_0 = \sqrt{-2 \ln(U_1)} \cos(2\pi U_2) \
+Z_1 = \sqrt{-2 \ln(U_1)} \sin(2\pi U_2)
+$$</li>
+<li>Z0 and Z1 are independent standard normal RVs</li>
+</ol>
+<h2 id="inverse-transform-sampling">Inverse transform sampling</h2>
+<p><strong>Goal:</strong> Generate random samples from a target distribution $X$ using a source of uniform random numbers $U \sim \text{Unif}(0,1)$.</p>
+<p><strong>Prerequisites:</strong></p>
+<ol>
+<li>You must know the Cumulative Distribution Function (CDF), $F(x)$.</li>
+<li>You must be able to calculate the inverse function, $F^{-1}(u)$.</li>
+</ol>
+<h2 id="the-algorithm">The Algorithm</h2>
+<ol>
+<li><strong>Generate</strong> a random number $u$ from the uniform distribution $[0, 1]$.</li>
+<li><strong>Compute</strong> $x = F^{-1}(u)$.</li>
+<li><strong>Result:</strong> The value $x$ is a random draw from the distribution defined by $F$.</li>
+</ol>
+<h2 id="mathematical-proof">Mathematical Proof</h2>
+<p>Let $U \sim \text{Unif}(0,1)$. We define $X = F^{-1}(U)$.
+We verify the CDF of $X$:</p>
+<p>$$
+\begin{aligned}
+P(X \le x) &amp;= P(F^{-1}(U) \le x) \
+&amp;= P(U \le F(x)) \quad \text{(Applying } F \text{ to both sides)} \
+&amp;= F(x) \quad \text{(Property of Uniform distribution)}
+\end{aligned}
+$$</p>
+<p><strong>Conclusion:</strong> The variable $X$ has the CDF $F(x)$, meaning it follows the desired distribution.</p>
+<h2 id="example-exponential-distribution">Example: Exponential Distribution</h2>
+<ul>
+<li><strong>PDF:</strong> $f(x) = \lambda e^{-\lambda x}$</li>
+<li><strong>CDF:</strong> $F(x) = 1 - e^{-\lambda x}$</li>
+<li><strong>Inverse Step:</strong>
+Let $u = 1 - e^{-\lambda x}$
+$$e^{-\lambda x} = 1 - u$$
+$$-\lambda x = \ln(1 - u)$$
+$$x = -\frac{1}{\lambda} \ln(1 - u)$$</li>
+<li><strong>Sampling Formula:</strong> Generate $u$, then compute $x = -\frac{\ln(1-u)}{\lambda}$.</li>
+</ul>
+<h1 id="lecture-7---markov-chains">Lecture 7 - Markov chains</h1>
+<p>Markov Chain Concepts Summary</p>
+<h2 id="1-definitions">1. Definitions</h2>
+<h3 id="irreducible">Irreducible</h3>
+<p>A Markov chain is <strong>irreducible</strong> if it is possible to reach any state from any other state eventually.</p>
+<ul>
+<li><strong>Graph view:</strong> The state transition graph is strongly connected.</li>
+<li><strong>Meaning:</strong> The system implies no &quot;trapping sets&quot; or disjoint parts; everything mixes.</li>
+</ul>
+<h3 id="aperiodic">Aperiodic</h3>
+<p>A Markov chain is <strong>aperiodic</strong> if transitions are not locked into a fixed cyclic rhythm.</p>
+<ul>
+<li><strong>Definition:</strong> The greatest common divisor (GCD) of the lengths of all paths returning to a state is $1$.</li>
+<li><strong>Rule of thumb:</strong> If a state has a &quot;self-loop&quot; (probability of staying in the same state $&gt; 0$), the chain is aperiodic.</li>
+</ul>
+<h3 id="reversible">Reversible</h3>
+<p>A Markov chain is <strong>reversible</strong> if the flux from $i \to j$ equals the flux from $j \to i$ once the system is in equilibrium.</p>
+<ul>
+<li><strong>Detailed Balance Equation:</strong> $\pi_i P_{ij} = \pi_j P_{ji}$</li>
+<li><strong>Intuition:</strong> The process is statistically indistinguishable whether time runs forward or backward.</li>
+</ul>
+<hr>
+<h2 id="2-relationships">2. Relationships</h2>
+<ul>
+<li><strong>Do they exclude each other?</strong> No. A chain can be any combination (e.g., Irreducible and Periodic, or Reversible and Reducible).</li>
+<li><strong>Do they imply each other?</strong> Mostly no, they are independent properties.
+<ul>
+<li><em>Note:</em> <strong>Reversibility implies Stationarity.</strong> If a distribution satisfies detailed balance, it is stationary.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="3-existence-of-stationary-distribution-pi">3. Existence of Stationary Distribution ($\pi$)</h2>
+<p><strong>Condition:</strong> A probability distribution $\pi$ such that $\pi P = \pi$.</p>
+<h3 id="finite-state-space">Finite State Space</h3>
+<ul>
+<li><strong>General Rule:</strong> At least one stationary distribution always exists.</li>
+<li><strong>If Irreducible:</strong> The stationary distribution is <strong>unique</strong> and positive.</li>
+</ul>
+<h3 id="infinite-state-space">Infinite State Space</h3>
+<ul>
+<li>Existence is not guaranteed.</li>
+<li>A stationary distribution exists if and only if the chain is <strong>Positive Recurrent</strong> (expected return time to a state is finite).</li>
+<li>If the chain is <em>Transient</em> or <em>Null Recurrent</em>, $\pi$ does not exist (probabilities &quot;leak&quot; out to infinity).</li>
+</ul>
+<hr>
+<h2 id="4-convergence-the-ergodic-theorem">4. Convergence (The Ergodic Theorem)</h2>
+<p>For a finite Markov chain to <strong>converge</strong> to its stationary distribution over time (regardless of start state), it must be:</p>
+<ol>
+<li><strong>Irreducible</strong></li>
+<li><strong>Aperiodic</strong></li>
+</ol>
+<p>$$\lim_{n \to \infty} P^n_{ij} = \pi_j$$</p>
+<h1 id="lecture-8---high-dimension">Lecture 8 - High dimension</h1>
+<h2 id="gaussian-annulus-theorem">Gaussian Annulus Theorem</h2>
+<p>In high dimension the Gaussian concentrates in an annulus of radius $\sqrt{d}$.</p>
+<h2 id="johnson---lindenstrauss-random-projection-theorem">Johnson - Lindenstrauss random projection theorem:</h2>
+<p>The Johnson-Lindenstrauss Lemma states that you can project points from a high-dimensional space into a lower-dimensional space while preserving the Euclidean distances between them with high probability.</p>
+<p>Here is the breakdown of the implementation steps:</p>
+<ol>
+<li>The Transformation Matrix (R)</li>
+</ol>
+<p>To go from d dimensions to k dimensions, we need a linear transformation. In linear algebra, this is represented by a matrix with d rows (to match the input) and k columns (to produce the output). We fill this matrix with random numbers drawn from a Gaussian (Normal) distribution (μ=0,σ=1).
+2. The Projection (X⋅R)</p>
+<p>We perform matrix multiplication between your input data X (shape n_samples, d) and the random matrix R (shape d, k).</p>
+<pre><code>The inner dimensions (d) cancel out.
+
+The resulting shape is (n_samples, k).
+</code></pre>
+<ol start="3">
+<li>The Scaling (k​1​)</li>
+</ol>
+<p>This is the most strictly mathematical part. If you just sum up k random Gaussian variables squared, the resulting magnitude grows as k increases. To make sure the distances in the new lower-dimensional space resemble the distances in the original space, we must normalize the result. The scaling factor for Gaussian random projections is k​1​.</p>
+<h1 id="other-notes">Other notes</h1>
+<h2 id="train-validation-test-splitting">Train-Validation-Test splitting</h2>
+<p>IF we want to achieve 60/15/25 split:</p>
+<ol>
+<li>First get 40% of the data as a 'temp' set and 60% as train set</li>
+<li>Then split the 'temp' set into validation and test sets according to the formula
+$$
+test_size = \frac{P_{test}}{P_{test} + P_{val}}
+$$</li>
+</ol>
+<h2 id="bennetts-inequality">Bennett's inequality</h2>
+<p>Let X1, X2, ..., Xn be independent, centered (mean 0) sub-Exponential RVs with parameters (nu_i, b_i). Let S_n = sum Xi. Then for any t &gt; 0 it holds that
+$$
+P(S_n \ge t) \le \exp\left(-\frac{n\nu_n^2}{b_n^2} h\left(\frac{b_n t}{n \nu_n^2}\right)\right)
+$$
+where
+$$
+\nu_n^2 = \frac{1}{n} \sum_{i=1}^{n} \nu_i^2, \quad b_n = \max_{i} b_i, \quad h(u) = (1+u)\ln(1+u) - u
+$$</p>
+<p>Bernstein's inequality is a simpler version of Bennett's inequality</p>
+<p>$$
+P(S_n \ge t) \le \exp\left(-\frac{t^2/2}{n\nu_n^2 + b_n t/3}\right)
+$$
+Epsilon confidence interval:
+$$
+\varepsilon = \sqrt{\frac{2\sigma^2}{n} \ln\left(\frac{2}{\delta}\right)} + \frac{M}{3n} \ln\left(\frac{2}{\delta}\right)
+$$
+sigma^2 - average of variances of Xi
+M = maximum possible range/bound of Xi
+delta - confidence level (e.g. 0.01)</p>
+<h2 id="exam-2022-concentration-of-measure">Exam 2022 concentration of measure</h2>
+<h2 id="1-theoretical-background">1. Theoretical Background</h2>
+<p>Concentration of measure defines how fast a random variable (like an empirical mean) converges to its true expected value as the sample size $n$ grows.</p>
+<h3 id="exponential-concentration-strong">Exponential Concentration (Strong)</h3>
+<p>The probability of a deviation drops extremely fast (exponentially) as $n$ increases.
+$$P(|Z - \mathbb{E}[Z]| \geq \epsilon) \leq C_1 e^{-C_2 n \epsilon^2}$$
+This requires the underlying data to have <strong>&quot;light tails&quot;</strong> (extreme values are very rare).</p>
+<ul>
+<li><strong>Sub-Gaussian:</strong> Tails decay like a Gaussian ($e^{-x^2}$). Examples: Normal distribution, Bounded variables (Bernoulli, Uniform).</li>
+<li><strong>Sub-Exponential:</strong> Tails decay like an Exponential ($e^{-|x|}$). Examples: Exponential distribution, Chi-squared.</li>
+</ul>
+<h3 id="polynomial-concentration-weak">Polynomial Concentration (Weak)</h3>
+<p>The probability drops much slower (polynomially), usually driven by <strong>Chebyshev’s Inequality</strong>.
+$$P(|Z - \mathbb{E}[Z]| \geq \epsilon) \leq \frac{\text{Var}(Z)}{\epsilon^2} \propto \frac{1}{n \epsilon^2}$$
+This only requires <strong>Finite Variance</strong>. Extreme values are possible, so we cannot guarantee the tight exponential bound.</p>
+<hr>
+<h2 id="part-1-exponential-concentration">Part 1: Exponential Concentration</h2>
+<p><strong>Correct Answers:</strong> <code>[1, 2, 5, 9, 10]</code></p>
+<p>These variables have &quot;light tails&quot; or are bounded, allowing for strong bounds like Hoeffding's or Bernstein's inequalities.</p>
+<ul>
+<li><strong>1. The empirical mean of i.i.d. sub-Gaussian random variables</strong>
+<ul>
+<li><strong>Why:</strong> By definition, sums of independent sub-Gaussian variables are sub-Gaussian. We can use <strong>Hoeffding's Inequality</strong>.</li>
+</ul>
+</li>
+<li><strong>2. The empirical mean of i.i.d. sub-Exponential random variables</strong>
+<ul>
+<li><strong>Why:</strong> Sums of sub-Exponentials are sub-Exponential. We can use <strong>Bernstein's Inequality</strong>, which gives an exponential bound (specifically a mix of $e^{-n\epsilon^2}$ for small deviations and $e^{-n\epsilon}$ for large ones).</li>
+</ul>
+</li>
+<li><strong>5. The empirical variance of i.i.d. sub-Gaussian random variables</strong>
+<ul>
+<li><strong>Why:</strong> The empirical variance depends on the average of $X^2$. If $X$ is sub-Gaussian (tail $e^{-x^2}$), then $Y = X^2$ is <strong>sub-Exponential</strong> (tail $e^{-y}$). Since we are taking the mean of sub-Exponential variables ($X^2$), this falls back to Case 2.</li>
+</ul>
+</li>
+<li><strong>9. The empirical mean of i.i.d. deterministic random variables</strong>
+<ul>
+<li><strong>Why:</strong> A deterministic variable is a constant. The variance is 0. It equals its mean with probability 1 (infinite concentration).</li>
+</ul>
+</li>
+<li><strong>10. The empirical tenth moment of i.i.d. Bernoulli random variables</strong>
+<ul>
+<li><strong>Why:</strong> A Bernoulli variable $B$ takes values ${0, 1}$. $B^{10}$ also takes values ${0, 1}$. All bounded variables are <strong>sub-Gaussian</strong>, so their mean concentrates exponentially (Hoeffding).</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="part-2-weak-concentration">Part 2: Weak Concentration</h2>
+<p><strong>Correct Answers:</strong> <code>[3, 6, 7, 8]</code></p>
+<p>These variables have tails that are too &quot;heavy&quot; for exponential bounds but still have finite variance, satisfying Chebyshev's inequality.</p>
+<ul>
+<li><strong>3. The empirical mean of i.i.d. random variables with finite variance</strong>
+<ul>
+<li><strong>Why:</strong> We only know the variance is finite. We don't know if higher moments exist or if tails decay exponentially. We can strictly only apply <strong>Chebyshev's Inequality</strong>.</li>
+</ul>
+</li>
+<li><strong>6. The empirical variance of i.i.d. sub-Exponential random variables</strong>
+<ul>
+<li><strong>Why:</strong> Empirical variance relies on $X^2$. If $X$ is sub-Exponential ($e^{-|x|}$), then $Y = X^2$ has a tail that behaves like $e^{-\sqrt{y}}$. This is heavier than a standard exponential tail ($e^{-y}$). It does <em>not</em> satisfy the sub-Exponential definition for Bernstein's bound, but since all moments exist, the variance is finite.</li>
+</ul>
+</li>
+<li><strong>7. The empirical third moment of i.i.d. sub-Gaussian random variables</strong>
+<ul>
+<li><strong>Why:</strong> We look at $X^3$. If $X$ is sub-Gaussian ($e^{-x^2}$), then $Z = X^3$ has tails like $e^{-z^{2/3}}$. This decay is slower than exponential ($e^{-z}$), so no Hoeffding/Bernstein. However, finite moments exist.</li>
+</ul>
+</li>
+<li><strong>8. The empirical fourth moment of i.i.d. sub-Gaussian random variables</strong>
+<ul>
+<li><strong>Why:</strong> We look at $X^4$. If $X$ is sub-Gaussian ($e^{-x^2}$), then $W = X^4$ has tails like $e^{-\sqrt{w}}$. This is significantly slower than exponential.</li>
+</ul>
+</li>
+</ul>
+<h3 id="excluded-case">Excluded Case</h3>
+<ul>
+<li><strong>4. The empirical variance of i.i.d. random variables with finite variance</strong>
+<ul>
+<li><strong>Why:</strong> To compute the <em>concentration</em> of the variance, we need the <strong>variance of the sample variance</strong>, which depends on the <strong>fourth moment</strong> ($E[X^4]$). The problem only guarantees finite variance ($E[X^2] &lt; \infty$), not finite fourth moment.</li>
+</ul>
+</li>
+</ul>
+<h1 id="steps-for-model-calibration">Steps for Model Calibration</h1>
+<p>Calibration is the process of adjusting the output probabilities of a classification model so that they reflect the true likelihood of the event occurring. For example, if a model predicts a 70% chance of rain for 10 days, it should actually rain on approximately 7 of those days.</p>
+<p>Here are the standard steps to calibrate a model, specifically using the approach required in Problem 2 (isotonic regression or decision trees on a calibration set).</p>
+<h2 id="1-split-your-data">1. Split Your Data</h2>
+<p>You cannot train and calibrate on the same data because the model is already &quot;biased&quot; toward fitting the training labels. You need three distinct sets:</p>
+<ul>
+<li><strong>Training Set:</strong> Used to train the base classifier (e.g., your Logistic Regression or <code>ProportionalSpam</code> model).</li>
+<li><strong>Calibration Set:</strong> A held-out subset used <em>only</em> to learn the mapping from &quot;raw scores&quot; to &quot;true probabilities.&quot;</li>
+<li><strong>Test Set:</strong> Used to evaluate the final performance.</li>
+</ul>
+<h2 id="2-train-the-base-model">2. Train the Base Model</h2>
+<p>Train your classifier (e.g., <code>problem2_ps</code>) on the <strong>Training Set</strong>.</p>
+<ul>
+<li>The model learns to distinguish classes (0 vs 1).</li>
+<li>It outputs a score or a probability (e.g., 0.8), but this probability might be uncalibrated (e.g., too confident or not confident enough).</li>
+</ul>
+<h2 id="3-generate-raw-predictions">3. Generate Raw Predictions</h2>
+<p>Use the trained base model to predict scores for the <strong>Calibration Set</strong>.</p>
+<ul>
+<li>Do <em>not</em> predict binary labels (0 or 1).</li>
+<li>Predict the continuous scores or probabilities.</li>
+<li>Let's call these predictions $P_{calib}$.</li>
+</ul>
+<h2 id="4-train-the-calibrator">4. Train the Calibrator</h2>
+<p>Train a second regression model (the calibrator) to map $P_{calib}$ to the true labels of the calibration set ($Y_{calib}$).</p>
+<ul>
+<li><strong>Input (X):</strong> The raw predictions from the base model ($P_{calib}$). Note: You usually need to reshape this to <code>(n_samples, 1)</code>.</li>
+<li><strong>Target (Y):</strong> The actual ground truth labels ($Y_{calib}$, which are 0s and 1s).</li>
+<li><strong>Model:</strong> Common choices are Isotonic Regression (non-parametric, strictly increasing) or a Decision Tree Regressor (as used in this exam).</li>
+</ul>
+<p><em>Conceptually, the calibrator learns: &quot;When the base model says 0.7, the actual empirical probability is 0.6.&quot;</em></p>
+<h2 id="5-calibrate-test-predictions">5. Calibrate Test Predictions</h2>
+<p>To make final predictions on new data (the <strong>Test Set</strong>):</p>
+<ol>
+<li><strong>Step A:</strong> Use the <strong>Base Model</strong> to predict raw scores on $X_{test}$.</li>
+<li><strong>Step B:</strong> Feed those raw scores into the <strong>Calibrator</strong>.</li>
+<li><strong>Step C:</strong> The output of the calibrator is your final, calibrated probability.</li>
+</ol>
+<h2 id="6-evaluate">6. Evaluate</h2>
+<p>Check the reliability of your new probabilities using metrics like:</p>
+<ul>
+<li><strong>Brier Score:</strong> Mean squared difference between predicted probability and actual outcome.</li>
+<li><strong>Calibration Plot (Reliability Diagram):</strong> Plots predicted probability vs. observed frequency. Ideally, this should be a diagonal line $y=x$.</li>
+<li><strong>0-1 Loss:</strong> (If you need a hard classification) Apply a threshold (usually 0.5) to the calibrated probabilities and calculate error rate.</li>
+</ul>
+<hr>
+<p>Additional notes at:
+https://bluej1.github.io/IntroDSExamMaterial/</p>
+<p>solutions to exercises:
+https://github.com/sajad13901/Statistics_Wasserman/tree/main</p>
+<p>https://michalkamin.github.io/intro-to-ds-study-helper/</p>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
+</script>
+</body>
+</html>
