@@ -506,6 +506,14 @@ $$
 \varepsilon = \frac{b-a}{\sqrt{2n}} \sqrt{\ln\!\left(\frac{2}{\delta}\right)}.
 $$
 
+OR equivalently 
+
+$$
+\epsilon = \sqrt{\frac{(b-a)^2\log(2/(1-\alpha))}{2n}}
+$$
+
+alpha is the confidence level, here 0.95, so inside epsilon we use 1-alpha
+
 - Chebyshev:
 $$
 \frac{\sigma^2}{n\varepsilon^2} = \delta
@@ -658,7 +666,6 @@ $$
 3. Z0 and Z1 are independent standard normal RVs
 
 ## Inverse transform sampling
-
 **Goal:** Generate random samples from a target distribution $X$ using a source of uniform random numbers $U \sim \text{Unif}(0,1)$.
 
 **Prerequisites:**
@@ -693,6 +700,59 @@ $$
   $$-\lambda x = \ln(1 - u)$$
   $$x = -\frac{1}{\lambda} \ln(1 - u)$$
 * **Sampling Formula:** Generate $u$, then compute $x = -\frac{\ln(1-u)}{\lambda}$.
+
+# Lecture 7 - Markov chains
+
+Markov Chain Concepts Summary
+
+## 1. Definitions
+
+### Irreducible
+A Markov chain is **irreducible** if it is possible to reach any state from any other state eventually.
+* **Graph view:** The state transition graph is strongly connected.
+* **Meaning:** The system implies no "trapping sets" or disjoint parts; everything mixes.
+
+### Aperiodic
+A Markov chain is **aperiodic** if transitions are not locked into a fixed cyclic rhythm.
+* **Definition:** The greatest common divisor (GCD) of the lengths of all paths returning to a state is $1$.
+* **Rule of thumb:** If a state has a "self-loop" (probability of staying in the same state $> 0$), the chain is aperiodic.
+
+### Reversible
+A Markov chain is **reversible** if the flux from $i \to j$ equals the flux from $j \to i$ once the system is in equilibrium.
+* **Detailed Balance Equation:** $\pi_i P_{ij} = \pi_j P_{ji}$
+* **Intuition:** The process is statistically indistinguishable whether time runs forward or backward.
+
+---
+
+## 2. Relationships
+
+* **Do they exclude each other?** No. A chain can be any combination (e.g., Irreducible and Periodic, or Reversible and Reducible).
+* **Do they imply each other?** Mostly no, they are independent properties.
+    * *Note:* **Reversibility implies Stationarity.** If a distribution satisfies detailed balance, it is stationary.
+
+---
+
+## 3. Existence of Stationary Distribution ($\pi$)
+
+**Condition:** A probability distribution $\pi$ such that $\pi P = \pi$.
+
+### Finite State Space
+* **General Rule:** At least one stationary distribution always exists.
+* **If Irreducible:** The stationary distribution is **unique** and positive.
+
+### Infinite State Space
+* Existence is not guaranteed.
+* A stationary distribution exists if and only if the chain is **Positive Recurrent** (expected return time to a state is finite).
+* If the chain is *Transient* or *Null Recurrent*, $\pi$ does not exist (probabilities "leak" out to infinity).
+
+---
+
+## 4. Convergence (The Ergodic Theorem)
+For a finite Markov chain to **converge** to its stationary distribution over time (regardless of start state), it must be:
+1.  **Irreducible**
+2.  **Aperiodic**
+
+$$\lim_{n \to \infty} P^n_{ij} = \pi_j$$
 
 
 # Other notes
@@ -786,6 +846,48 @@ These variables have tails that are too "heavy" for exponential bounds but still
 * **4. The empirical variance of i.i.d. random variables with finite variance**
     * **Why:** To compute the *concentration* of the variance, we need the **variance of the sample variance**, which depends on the **fourth moment** ($E[X^4]$). The problem only guarantees finite variance ($E[X^2] < \infty$), not finite fourth moment.
 
+# Steps for Model Calibration
+
+Calibration is the process of adjusting the output probabilities of a classification model so that they reflect the true likelihood of the event occurring. For example, if a model predicts a 70% chance of rain for 10 days, it should actually rain on approximately 7 of those days.
+
+Here are the standard steps to calibrate a model, specifically using the approach required in Problem 2 (isotonic regression or decision trees on a calibration set).
+
+## 1. Split Your Data
+You cannot train and calibrate on the same data because the model is already "biased" toward fitting the training labels. You need three distinct sets:
+* **Training Set:** Used to train the base classifier (e.g., your Logistic Regression or `ProportionalSpam` model).
+* **Calibration Set:** A held-out subset used *only* to learn the mapping from "raw scores" to "true probabilities."
+* **Test Set:** Used to evaluate the final performance.
+
+## 2. Train the Base Model
+Train your classifier (e.g., `problem2_ps`) on the **Training Set**.
+* The model learns to distinguish classes (0 vs 1).
+* It outputs a score or a probability (e.g., 0.8), but this probability might be uncalibrated (e.g., too confident or not confident enough).
+
+## 3. Generate Raw Predictions
+Use the trained base model to predict scores for the **Calibration Set**.
+* Do *not* predict binary labels (0 or 1).
+* Predict the continuous scores or probabilities.
+* Let's call these predictions $P_{calib}$.
+
+## 4. Train the Calibrator
+Train a second regression model (the calibrator) to map $P_{calib}$ to the true labels of the calibration set ($Y_{calib}$).
+* **Input (X):** The raw predictions from the base model ($P_{calib}$). Note: You usually need to reshape this to `(n_samples, 1)`.
+* **Target (Y):** The actual ground truth labels ($Y_{calib}$, which are 0s and 1s).
+* **Model:** Common choices are Isotonic Regression (non-parametric, strictly increasing) or a Decision Tree Regressor (as used in this exam).
+
+*Conceptually, the calibrator learns: "When the base model says 0.7, the actual empirical probability is 0.6."*
+
+## 5. Calibrate Test Predictions
+To make final predictions on new data (the **Test Set**):
+1.  **Step A:** Use the **Base Model** to predict raw scores on $X_{test}$.
+2.  **Step B:** Feed those raw scores into the **Calibrator**.
+3.  **Step C:** The output of the calibrator is your final, calibrated probability.
+
+## 6. Evaluate
+Check the reliability of your new probabilities using metrics like:
+* **Brier Score:** Mean squared difference between predicted probability and actual outcome.
+* **Calibration Plot (Reliability Diagram):** Plots predicted probability vs. observed frequency. Ideally, this should be a diagonal line $y=x$.
+* **0-1 Loss:** (If you need a hard classification) Apply a threshold (usually 0.5) to the calibrated probabilities and calculate error rate.
 
 ---
 Additional notes at:
