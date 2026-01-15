@@ -754,6 +754,30 @@ For a finite Markov chain to **converge** to its stationary distribution over ti
 
 $$\lim_{n \to \infty} P^n_{ij} = \pi_j$$
 
+# Lecture 8 - High dimension
+
+## Gaussian Annulus Theorem 
+In high dimension the Gaussian concentrates in an annulus of radius $\sqrt{d}$. 
+
+## Johnson - Lindenstrauss random projection theorem:
+
+The Johnson-Lindenstrauss Lemma states that you can project points from a high-dimensional space into a lower-dimensional space while preserving the Euclidean distances between them with high probability.
+
+Here is the breakdown of the implementation steps:
+1. The Transformation Matrix (R)
+
+To go from d dimensions to k dimensions, we need a linear transformation. In linear algebra, this is represented by a matrix with d rows (to match the input) and k columns (to produce the output). We fill this matrix with random numbers drawn from a Gaussian (Normal) distribution (μ=0,σ=1).
+2. The Projection (X⋅R)
+
+We perform matrix multiplication between your input data X (shape n_samples, d) and the random matrix R (shape d, k).
+
+    The inner dimensions (d) cancel out.
+
+    The resulting shape is (n_samples, k).
+
+3. The Scaling (k​1​)
+
+This is the most strictly mathematical part. If you just sum up k random Gaussian variables squared, the resulting magnitude grows as k increases. To make sure the distances in the new lower-dimensional space resemble the distances in the original space, we must normalize the result. The scaling factor for Gaussian random projections is k​1​.
 
 # Other notes
 
@@ -895,6 +919,8 @@ https://bluej1.github.io/IntroDSExamMaterial/
 
 solutions to exercises:
 https://github.com/sajad13901/Statistics_Wasserman/tree/main
+
+https://michalkamin.github.io/intro-to-ds-study-helper/
 
 <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script type="text/x-mathjax-config">
